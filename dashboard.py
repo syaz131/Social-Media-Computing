@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 
 # ------------------------------------------------
 # conda activate datamining
-# streamlit run "Assignment 1 - viz.py"
+# streamlit run dashboard.py
 st.title('Food Demand Forecasting 1')
 # ------------------------------------------------
 
@@ -19,7 +19,9 @@ st.title('Food Demand Forecasting 1')
 # Feature Selection
 menu = ['Assignment 1', 'Assignment 2']
 st.sidebar.subheader('Main Menu')
-page = st.sidebar.selectbox("Select Menu Page", menu)
+page = st.sidebar.selectbox("Select Page Menu", menu)
+st.sidebar.subheader('Group Member')
+st.sidebar.text('Izzah \nGlenn \nNiroshaan \nSyazwan')
 
 if page == 'Assignment 1':
     st.title('Assignment 1 - Dashboard')
