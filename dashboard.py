@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 # ------------------------------------------------
 # conda activate datamining
 # streamlit run dashboard.py
-st.title('Food Demand Forecasting 1')
+st.title('DASHBOARD')
 # ------------------------------------------------
 
 # @st.cache
@@ -21,10 +21,10 @@ menu = ['Assignment 1', 'Assignment 2']
 st.sidebar.subheader('Main Menu')
 page = st.sidebar.selectbox("Select Page Menu", menu)
 st.sidebar.subheader('Group Member')
-st.sidebar.text('Izzah\t1171101738 \nGlenn\t1171101736 \nNiroshaan\t1171101816 \nSyazwan1171101803')
+st.sidebar.text('Izzah\t\t1171101738 \nGlenn\t\t1171101736 \nNiroshaan\t1171101816 \nSyazwan\t\t1171101803')
 
 if page == 'Assignment 1':
-    st.title('Assignment 1 - Dashboard')
+    st.title('Assignment 1')
 
 if page == 'Assignment 2':
-    st.title('Assignment 2 - Dashboard')
+    st.title('Assignment 2')
