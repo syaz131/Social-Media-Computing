@@ -21,7 +21,7 @@ menu = ['Assignment 1', 'Assignment 2']
 st.sidebar.subheader('Main Menu')
 page = st.sidebar.selectbox("Select Page Menu", menu)
 st.sidebar.subheader('Group Member')
-st.sidebar.text('Izzah \nGlenn \nNiroshaan \nSyazwan')
+st.sidebar.text('Izzah\t1171101738 \nGlenn\t1171101736 \nNiroshaan\t1171101816 \nSyazwan1171101803')
 
 if page == 'Assignment 1':
     st.title('Assignment 1 - Dashboard')
