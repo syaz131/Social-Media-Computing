@@ -146,20 +146,22 @@ if page == 'Assignment 1':
 
     fig, ax = plt.subplots(figsize=(15, 7))
     dataframe = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
-    boxplot_rt = plt.boxplot(dataframe, patch_artist=True)
 
-    for patch, color in zip(boxplot_rt['boxes'], palette):
-        patch.set_facecolor(color)
-
-    for median in boxplot_rt['medians']:
-        median.set(color='w',
-                   linewidth=2.5)
-    x = [1, 2, 3, 4]
-    plt.xticks(x, brands, rotation=360)
-    plt.xlabel("Brand", fontsize=font_size)
-    plt.ylabel("Time (s)", fontsize=font_size)
-    plt.title("Distribution of response time within 14 days period for all brands", fontsize=21)
-    st.pyplot()
+    # ERROR  - cannot perform reduce with flexible type
+    # boxplot_rt = plt.boxplot(dataframe, patch_artist=True)
+    #
+    # for patch, color in zip(boxplot_rt['boxes'], palette):
+    #     patch.set_facecolor(color)
+    #
+    # for median in boxplot_rt['medians']:
+    #     median.set(color='w',
+    #                linewidth=2.5)
+    # x = [1, 2, 3, 4]
+    # plt.xticks(x, brands, rotation=360)
+    # plt.xlabel("Brand", fontsize=font_size)
+    # plt.ylabel("Time (s)", fontsize=font_size)
+    # plt.title("Distribution of response time within 14 days period for all brands", fontsize=21)
+    # st.pyplot()
 
     st.header('3. Engagement Rate')
     # ==============================
