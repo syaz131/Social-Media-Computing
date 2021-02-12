@@ -48,10 +48,10 @@ st.sidebar.subheader('Main Menu')
 page = st.sidebar.selectbox("Select Page Menu", menu)
 
 st.sidebar.subheader('Group Member')
-st.sidebar.warning('Izzah 1171101738 - GrabMY')
-st.sidebar.success('Glenn 1171101736 - LazadaMY')
+st.sidebar.info('Izzah 1171101738 - GrabMY')
+st.sidebar.warning('Glenn 1171101736 - LazadaMY')
 st.sidebar.error('Niroshaan 1171101816 - ShopeeMY')
-st.sidebar.info('Syazwan 1171101803 - watsonsmy')
+st.sidebar.success('Syazwan 1171101803 - watsonsmy')
 
 engagement_rate_df = load_engagement_data()
 followers_count_df = load_follower_data()
@@ -59,7 +59,8 @@ response_time_df = load_response_data()
 ssov_pr_df = load_ssov_pr()
 
 brands = ['GrabMY', 'LazadaMY', 'ShopeeMY', 'watsonsmy']
-palette = ['blue', 'orange', 'green', 'red']
+palette = ['dodgerblue', 'gold', 'lightcoral', 'mediumturquoise']
+# palette = ['blue', 'orange', 'green', 'red']
 font_size = 18
 
 if page == 'Assignment 1':
