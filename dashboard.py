@@ -10,7 +10,7 @@ import seaborn as sns
 # ------------------------------------------------
 # conda activate datamining
 # streamlit run dashboard.py
-st.title('DASHBOARD')
+st.title('DASHBOARD - Digital Economy')
 # ------------------------------------------------
 
 st.set_option('deprecation.showPyplotGlobalUse', False)
@@ -41,12 +41,17 @@ def load_ssov_pr():
 
 # Assignment Selection
 menu = ['Assignment 1', 'Assignment 2']
-st.sidebar.header('Social Media Computing')
-st.sidebar.subheader('Group Member')
-st.sidebar.text('Izzah\t\t1171101738 \nGlenn\t\t1171101736 \nNiroshaan\t1171102016 \nSyazwan\t\t1171102003')
+# st.sidebar.markdown('Izzah\t\t1171101738 \nGlenn\t\t1171101736 \nNiroshaan\t1171101816 \nSyazwan\t\t1171101803')
 
+st.sidebar.header('Social Media Computing')
 st.sidebar.subheader('Main Menu')
 page = st.sidebar.selectbox("Select Page Menu", menu)
+
+st.sidebar.subheader('Group Member')
+st.sidebar.warning('Izzah 1171101738 - GrabMY')
+st.sidebar.success('Glenn 1171101736 - LazadaMY')
+st.sidebar.error('Niroshaan 1171101816 - ShopeeMY')
+st.sidebar.info('Syazwan 1171101803 - watsonsmy')
 
 engagement_rate_df = load_engagement_data()
 followers_count_df = load_follower_data()
