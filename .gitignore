@@ -125,3 +125,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+dashboard-eg.py
+fulfilment_center_info.csv
+meal_info.csv
+train.csv
