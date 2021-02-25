@@ -61,7 +61,7 @@ ssov_pr_df = load_ssov_pr()
 brands = ['GrabMY', 'LazadaMY', 'ShopeeMY', 'watsonsmy']
 palette = ['dodgerblue', 'gold', 'lightcoral', 'mediumturquoise']
 # palette = ['blue', 'orange', 'green', 'red']
-font_size = 18
+font_size = 16
 
 if page == 'Assignment 1':
     st.title('Assignment 1')
@@ -71,9 +71,9 @@ if page == 'Assignment 1':
     followers_count_df = followers_count_df.sort_values(['screen_name', 'date'], ascending=[True, True])
     followers_count_df['daily_new_followers'] = followers_count_df['followers_count'].diff()
     followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(NaN, 0)
-    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(-12719.0, 0)
-    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(-19197, 0)
-    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(286156, 0)
+    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(-13163.0, 0)
+    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(-19208, 0)
+    followers_count_df["daily_new_followers"] = followers_count_df["daily_new_followers"].replace(285732, 0)
     followers_count_df['growth_rate'] = (followers_count_df.daily_new_followers /
                                          followers_count_df.followers_count.shift(1)) * 100
     followers_count_df["growth_rate"] = followers_count_df["growth_rate"].replace(NaN, 0)
@@ -101,7 +101,7 @@ if page == 'Assignment 1':
     plt.xticks(rotation=360)
     plt.xlabel("Brand", fontsize=font_size)
     plt.ylabel("Growth Rate (%)", fontsize=font_size)
-    st.pyplot()
+    # st.pyplot()
 
     df_growth = pd.DataFrame(data_growth)
     df_growth = df_growth.rename(columns={'date': 'index'}).set_index('index')
@@ -113,47 +113,64 @@ if page == 'Assignment 1':
 
     st.header('2. Response Time')
     # ===========================
-    response_time_df['time'] = pd.to_datetime(response_time_df['tweet_created_at'])
-    response_time_df['dates'] = response_time_df['time'].dt.date
-
-    response_time_df['duration'] = 0
-    rows = len(response_time_df['response_time'])
-
-    for i in range(0, len(response_time_df['response_time'])):
-        x = time.strptime(response_time_df['response_time'][i].split(',')[0], '%H:%M:%S')
-        response_time_df['duration'][i] = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min,
-                                                             seconds=x.tm_sec).total_seconds()
-
-    response_time_df = response_time_df.sort_values(['query', 'dates'], ascending=[True, True])
-
-    arrGrab = response_time_df[response_time_df['query'] == '@grabmy'].groupby(['dates'])['duration'].mean().array
-    arrLazada = response_time_df[response_time_df['query'] == '@lazadamy'].groupby(['dates'])['duration'].mean().array
-    arrShopee = response_time_df[response_time_df['query'] == '@shopeemy'].groupby(['dates'])['duration'].mean().array
-    arrWatsons = response_time_df[response_time_df['query'] == '@watsonsmy'].groupby(['dates'])['duration'].mean().array
-
-    data_response = {
-        'dates': response_time_df['dates'].unique(),
-        '@grabmy': arrGrab.astype(int),
-        '@lazadamy': arrLazada.astype(int),
-        '@shopeemy': arrShopee.astype(int),
-        '@watsonsmy': arrWatsons.astype(int)
-    }
-
-    df_response = pd.DataFrame(data_response)
-    df_response_new = pd.DataFrame(df_response[:8], columns=['@grabmy', '@lazadamy', '@shopeemy', '@watsonsmy'])
-    # df_response_new = df_response_new.set_index('dates')
-    st.area_chart(df_response_new)
-    df_response = df_response.rename(columns={'dates': 'index'}).set_index('index')
+    # response_time_df['time'] = pd.to_datetime(response_time_df['tweet_created_at'])
+    # response_time_df['dates'] = response_time_df['time'].dt.date
+    #
+    # response_time_df['duration'] = 0
+    # rows = len(response_time_df['response_time'])
+    #
+    # for i in range(0, len(response_time_df['response_time'])):
+    #     x = time.strptime(response_time_df['response_time'][i].split(',')[0], '%H:%M:%S')
+    #     response_time_df['duration'][i] = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min,
+    #                                                          seconds=x.tm_sec).total_seconds()
+    #
+    # response_time_df = response_time_df.sort_values(['query', 'dates'], ascending=[True, True])
+    # # st.table(response_time_df)
+    # response_time_df.set_index('dates', inplace=True)
+    # response_time_df = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
+    #
+    # response_time_df["@grabmy"] = response_time_df["@grabmy"].replace(NaN, response_time_df["@grabmy"].median())
+    # response_time_df["@shopeemy"] = response_time_df["@shopeemy"].replace(NaN, response_time_df["@shopeemy"].median())
+    # response_time_df["@watsonsmy"] = response_time_df["@watsonsmy"].replace(NaN, response_time_df["@watsonsmy"].median())
+    #
+    # arrGrab = response_time_df[response_time_df['query'] == '@grabmy'].groupby(['dates'])['duration'].mean().array
+    # arrLazada = response_time_df[response_time_df['query'] == '@lazadamy'].groupby(['dates'])['duration'].mean().array
+    # arrShopee = response_time_df[response_time_df['query'] == '@shopeemy'].groupby(['dates'])['duration'].mean().array
+    # arrWatsons = response_time_df[response_time_df['query'] == '@watsonsmy'].groupby(['dates'])['duration'].mean().array
+    #
+    # data_response = {
+    #     'dates': response_time_df['dates'].unique(),
+    #     '@grabmy': arrGrab.astype(int),
+    #     '@lazadamy': arrLazada.astype(int),
+    #     '@shopeemy': arrShopee.astype(int),
+    #     '@watsonsmy': arrWatsons.astype(int)
+    # }
+    #
+    # # st.table(data_response)
+    #
+    # st.write(len(response_time_df['dates'].unique()))
+    # st.write(len(arrGrab))
+    # st.write(len(arrLazada))
+    # st.write(len(arrShopee))
+    # st.write(len(arrWatsons))
+    #
+    #
+    # df_response = pd.DataFrame(data_response)
+    # df_response_new = pd.DataFrame(df_response[:], columns=['@grabmy', '@lazadamy', '@shopeemy', '@watsonsmy'])
+    # # df_response_new = df_response_new.set_index('dates')
+    # # st.area_chart(df_response)
+    # df_response = df_response.rename(columns={'dates': 'index'}).set_index('index')
     # st.line_chart(df_response)
-
-    if st.checkbox('Show response time data'):
-        st.subheader('Response Time Data')
-        st.table(df_response.transpose())
-
-    fig, ax = plt.subplots(figsize=(15, 7))
-    dataframe = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
-
-    # ERROR  - cannot perform reduce with flexible type
+    # # st.area_chart(df_response)
+    #
+    # if st.checkbox('Show response time data'):
+    #     st.subheader('Response Time Data')
+    #     st.table(df_response.transpose())
+    #
+    # fig, ax = plt.subplots(figsize=(15, 7))
+    # dataframe = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
+    #
+    # # ERROR  - cannot perform reduce with flexible type
     # boxplot_rt = plt.boxplot(dataframe, patch_artist=True)
     #
     # for patch, color in zip(boxplot_rt['boxes'], palette):
@@ -181,7 +198,7 @@ if page == 'Assignment 1':
     plt.xticks(rotation=360)
     plt.xlabel("Brand", fontsize=font_size)
     plt.ylabel("Total retweets", fontsize=font_size)
-    plt.title("Total retweets within 14 days period for all brands", fontsize=21)
+    plt.title("Total retweets within 21days period for all brands", fontsize=21)
     eng_col1.pyplot()
 
     fig, ax = plt.subplots(figsize=(15, 7))
@@ -189,7 +206,7 @@ if page == 'Assignment 1':
     plt.xticks(rotation=360)
     plt.xlabel("Brand", fontsize=font_size)
     plt.ylabel("Total favorites", fontsize=font_size)
-    plt.title("Total favorites within 14 days period for all brands", fontsize=21)
+    plt.title("Total favorites within 21 days period for all brands", fontsize=21)
     eng_col2.pyplot()
 
     arr_rt = engagement_rate_df.groupby(['username'])['retweet_count'].sum().array
@@ -228,12 +245,25 @@ if page == 'Assignment 1':
     engagement_rate_df['engagement_actions'] = engagement_rate_df['retweet_count'] + engagement_rate_df[
         'favorite_count']
     total_fav_rt = engagement_rate_df.groupby(['username'])['engagement_actions'].sum().array
-    followers_brand = followers_count_df['followers_count']['2021-02-10'].array
-    engagement_rate_percentage = (total_fav_rt / followers_brand) * 100
-    for i in range(len(engagement_rate_percentage)):
-        engagement_rate_percentage[i] = round(engagement_rate_percentage[i], 3)
+    followers_brand = followers_count_df['followers_count']['2021-02-23'].array
+    # engagement_rate_percentage = (total_fav_rt / followers_brand) * 100
+    # for i in range(len(engagement_rate_percentage)):
+    #     engagement_rate_percentage[i] = round(engagement_rate_percentage[i], 3)
 
-    plot_er3 = pd.DataFrame({'screen_name': brands, 'engagement_rate(%)': engagement_rate_percentage},
+    engagement_rate_df.loc[engagement_rate_df.username == 'GrabMY', 'followers'] = followers_brand[0]
+    engagement_rate_df.loc[engagement_rate_df.username == 'LazadaMY', 'followers'] = followers_brand[1]
+    engagement_rate_df.loc[engagement_rate_df.username == 'ShopeeMY', 'followers'] = followers_brand[2]
+    engagement_rate_df.loc[engagement_rate_df.username == 'watsonsmy', 'followers'] = followers_brand[3]
+
+    engagement_rate_df["engagement_rate"] = 0
+    engagement_rate_df["engagement_rate"] = (engagement_rate_df["engagement_actions"] /
+                                             engagement_rate_df["followers"]) * 100
+
+    # st.table(engagement_rate_df)
+    plot_engagement = engagement_rate_df.groupby(['username'])['engagement_rate'].mean()
+    engagement_percent = [plot_engagement[0], plot_engagement[1], plot_engagement[2], plot_engagement[3]]
+
+    plot_er3 = pd.DataFrame({'screen_name': brands, 'engagement_rate(%)': engagement_percent},
                             columns=['screen_name', 'engagement_rate(%)'])
     plt.figure(figsize=(8, 6))
     plots = sns.barplot(x="screen_name", y="engagement_rate(%)", data=plot_er3, palette=palette)
@@ -245,7 +275,8 @@ if page == 'Assignment 1':
                        size=12, xytext=(0, 8),
                        textcoords='offset points')
 
-    plt.title("Engagement rate within 14 days (03/02/2021 - 16/02/2021)", fontsize=21)
+    # change here
+    plt.title("Avg Engagement rate within 21 days (03/02/2021 - 21/02/2021)", fontsize=21)
     plt.xticks(rotation=360)
     plt.xlabel("Brand", fontsize=font_size)
     plt.ylabel("Engagement Rate (%)", fontsize=font_size)
