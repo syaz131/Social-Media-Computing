@@ -113,78 +113,79 @@ if page == 'Assignment 1':
 
     st.header('2. Response Time')
     # ===========================
-    # response_time_df['time'] = pd.to_datetime(response_time_df['tweet_created_at'])
-    # response_time_df['dates'] = response_time_df['time'].dt.date
-    #
-    # response_time_df['duration'] = 0
-    # rows = len(response_time_df['response_time'])
-    #
-    # for i in range(0, len(response_time_df['response_time'])):
-    #     x = time.strptime(response_time_df['response_time'][i].split(',')[0], '%H:%M:%S')
-    #     response_time_df['duration'][i] = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min,
-    #                                                          seconds=x.tm_sec).total_seconds()
-    #
-    # response_time_df = response_time_df.sort_values(['query', 'dates'], ascending=[True, True])
-    # # st.table(response_time_df)
-    # response_time_df.set_index('dates', inplace=True)
-    # response_time_df = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
-    #
-    # response_time_df["@grabmy"] = response_time_df["@grabmy"].replace(NaN, response_time_df["@grabmy"].median())
-    # response_time_df["@shopeemy"] = response_time_df["@shopeemy"].replace(NaN, response_time_df["@shopeemy"].median())
-    # response_time_df["@watsonsmy"] = response_time_df["@watsonsmy"].replace(NaN, response_time_df["@watsonsmy"].median())
-    #
-    # arrGrab = response_time_df[response_time_df['query'] == '@grabmy'].groupby(['dates'])['duration'].mean().array
-    # arrLazada = response_time_df[response_time_df['query'] == '@lazadamy'].groupby(['dates'])['duration'].mean().array
-    # arrShopee = response_time_df[response_time_df['query'] == '@shopeemy'].groupby(['dates'])['duration'].mean().array
-    # arrWatsons = response_time_df[response_time_df['query'] == '@watsonsmy'].groupby(['dates'])['duration'].mean().array
-    #
-    # data_response = {
-    #     'dates': response_time_df['dates'].unique(),
-    #     '@grabmy': arrGrab.astype(int),
-    #     '@lazadamy': arrLazada.astype(int),
-    #     '@shopeemy': arrShopee.astype(int),
-    #     '@watsonsmy': arrWatsons.astype(int)
-    # }
-    #
-    # # st.table(data_response)
+    response_time_df['time'] = pd.to_datetime(response_time_df['tweet_created_at'])
+    response_time_df['dates'] = response_time_df['time'].dt.date
+
+    response_time_df['duration'] = 0
+    rows = len(response_time_df['response_time'])
+
+    for i in range(0, len(response_time_df['response_time'])):
+        x = time.strptime(response_time_df['response_time'][i].split(',')[0], '%H:%M:%S')
+        response_time_df['duration'][i] = datetime.timedelta(hours=x.tm_hour, minutes=x.tm_min,
+                                                             seconds=x.tm_sec).total_seconds()
+
+    date_arr = sorted(response_time_df['dates'].unique())
+
+    response_time_df = response_time_df.sort_values(['query', 'dates'], ascending=[True, True])
+    response_time_df.set_index('dates', inplace=True)
+    response_time_df = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
+
+    # st.table(response_time_df)
+    response_time_df["@grabmy"] = response_time_df["@grabmy"].replace(NaN, response_time_df["@grabmy"].median())
+    response_time_df["@lazadamy"] = response_time_df["@lazadamy"].replace(NaN, response_time_df["@lazadamy"].median())
+    response_time_df["@shopeemy"] = response_time_df["@shopeemy"].replace(NaN, response_time_df["@shopeemy"].median())
+    response_time_df["@watsonsmy"] = response_time_df["@watsonsmy"].replace(NaN, response_time_df["@watsonsmy"].median())
+
+    # st.table(response_time_df)
+    # st.write(response_time_df["@watsonsmy"].array)
+
+    arrGrab = response_time_df["@grabmy"].array
+    arrLazada = response_time_df["@lazadamy"].array
+    arrShopee = response_time_df["@shopeemy"].array
+    arrWatsons = response_time_df["@watsonsmy"].array
+
+    data_response = {
+        'dates': date_arr,
+        '@grabmy': arrGrab.astype(int),
+        '@lazadamy': arrLazada.astype(int),
+        '@shopeemy': arrShopee.astype(int),
+        '@watsonsmy': arrWatsons.astype(int)
+    }
+
+    # st.table(data_response)
     #
     # st.write(len(response_time_df['dates'].unique()))
     # st.write(len(arrGrab))
     # st.write(len(arrLazada))
     # st.write(len(arrShopee))
     # st.write(len(arrWatsons))
-    #
-    #
-    # df_response = pd.DataFrame(data_response)
-    # df_response_new = pd.DataFrame(df_response[:], columns=['@grabmy', '@lazadamy', '@shopeemy', '@watsonsmy'])
-    # # df_response_new = df_response_new.set_index('dates')
-    # # st.area_chart(df_response)
-    # df_response = df_response.rename(columns={'dates': 'index'}).set_index('index')
+
+    df_response = pd.DataFrame(data_response)
+    df_response_new = pd.DataFrame(df_response[:], columns=['@grabmy', '@lazadamy', '@shopeemy', '@watsonsmy'])
+    st.area_chart(df_response_new)
+    df_response = df_response.rename(columns={'dates': 'index'}).set_index('index')
     # st.line_chart(df_response)
-    # # st.area_chart(df_response)
-    #
-    # if st.checkbox('Show response time data'):
-    #     st.subheader('Response Time Data')
-    #     st.table(df_response.transpose())
-    #
-    # fig, ax = plt.subplots(figsize=(15, 7))
-    # dataframe = response_time_df.groupby(['dates', 'query'])['duration'].mean().unstack()
-    #
-    # # ERROR  - cannot perform reduce with flexible type
-    # boxplot_rt = plt.boxplot(dataframe, patch_artist=True)
-    #
-    # for patch, color in zip(boxplot_rt['boxes'], palette):
-    #     patch.set_facecolor(color)
-    #
-    # for median in boxplot_rt['medians']:
-    #     median.set(color='w',
-    #                linewidth=2.5)
-    # x = [1, 2, 3, 4]
-    # plt.xticks(x, brands, rotation=360)
-    # plt.xlabel("Brand", fontsize=font_size)
-    # plt.ylabel("Time (s)", fontsize=font_size)
-    # plt.title("Distribution of response time within 14 days period for all brands", fontsize=21)
-    # st.pyplot()
+    # st.area_chart(df_response)
+
+    if st.checkbox('Show response time data'):
+        st.subheader('Response Time Data')
+        st.table(df_response.transpose())
+
+    fig, ax = plt.subplots(figsize=(15, 7))
+    boxplot_rt = plt.boxplot(response_time_df, patch_artist=True)
+
+    for patch, color in zip(boxplot_rt['boxes'], palette):
+        patch.set_facecolor(color)
+
+    for median in boxplot_rt['medians']:
+        median.set(color='w',
+                   linewidth=2.5)
+    x = [1, 2, 3, 4]
+    plt.xticks(x, brands, rotation=360)
+    plt.xlabel("Brand", fontsize=font_size)
+    plt.ylabel("Time (s)", fontsize=font_size)
+    plt.title("Distribution of response time within 21 days period for all brands", fontsize=21)
+    st.pyplot()
 
     st.header('3. Engagement Rate')
     # ==============================
@@ -320,7 +321,7 @@ if page == 'Assignment 1':
 
     fig, ax = plt.subplots(figsize=(15, 7))
     pr.plot(kind='bar', color=palette)
-    plt.title("Potential Reach (Audience) within 14 days period for all brands.", fontsize=21)
+    plt.title("Potential Reach (Audience) within 21 days period for all brands.", fontsize=21)
     plt.xticks(rotation=360)
     plt.xlabel("Brand", fontsize=15)
     plt.ylabel("Audience (in ten million)", fontsize=15)
