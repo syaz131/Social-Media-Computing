@@ -332,7 +332,6 @@ if page == 'Assignment 1':
 
     # eng_col1.bar_chart(df_rt)
     # eng_col2.bar_chart(df_fav)
-
     st.table(df_rt_fav.transpose())
 
     # total both rt and fav
@@ -690,9 +689,9 @@ if page == 'Assignment 2':
     degCentral_df = pd.DataFrame(degCentral_data)
     grab_degCentral_df = degCentral_df.sort_values('Degree of Centrality', ascending=True)
 
-    grab_communities = community.best_partition(G_grab)
-    nx.set_node_attributes(G_grab, values=grab_communities, name="modularity")
-    grab_modularity = {}  # Create a new, empty dictionary
+    # grab_communities = community.best_partition(G_grab)
+    # nx.set_node_attributes(G_grab, values=grab_communities, name="modularity")
+    # grab_modularity = {}  # Create a new, empty dictionary
 
     # ================ lazada ===============================
     # betweeness data
@@ -740,9 +739,9 @@ if page == 'Assignment 2':
     degCentral_df = pd.DataFrame(degCentral_data)
     lazada_degCentral_df = degCentral_df.sort_values('Degree of Centrality', ascending=True)
 
-    lazada_communities = community.best_partition(G_lazada)
-    nx.set_node_attributes(G_lazada, values=lazada_communities, name="modularity")
-    lazada_modularity = {}  # Create a new, empty dictionary
+    # lazada_communities = community.best_partition(G_lazada)
+    # nx.set_node_attributes(G_lazada, values=lazada_communities, name="modularity")
+    # lazada_modularity = {}  # Create a new, empty dictionary
 
     # ================ shopee ===============================
     # betweeness data
@@ -790,9 +789,9 @@ if page == 'Assignment 2':
     degCentral_df = pd.DataFrame(degCentral_data)
     shopee_degCentral_df = degCentral_df.sort_values('Degree of Centrality', ascending=True)
 
-    shopee_communities = community.best_partition(G_shopee)
-    nx.set_node_attributes(G_shopee, values=shopee_communities, name="modularity")
-    shopee_modularity = {}  # Create a new, empty dictionary
+    # shopee_communities = community.best_partition(G_shopee)
+    # nx.set_node_attributes(G_shopee, values=shopee_communities, name="modularity")
+    # shopee_modularity = {}  # Create a new, empty dictionary
 
     # ================ watsons ===============================
     # betweeness data
@@ -840,9 +839,9 @@ if page == 'Assignment 2':
     degCentral_df = pd.DataFrame(degCentral_data)
     watsons_degCentral_df = degCentral_df.sort_values('Degree of Centrality', ascending=True)
 
-    watsons_communities = community.best_partition(G_watsons)
-    nx.set_node_attributes(G_watsons, values=watsons_communities, name="modularity")
-    watsons_modularity = {}  # Create a new, empty dictionary
+    # watsons_communities = community.best_partition(G_watsons)
+    # nx.set_node_attributes(G_watsons, values=watsons_communities, name="modularity")
+    # watsons_modularity = {}  # Create a new, empty dictionary
 
     # --------------------------- Grab -----------------------------------------------
     st.info('Grab Malaysia Network')
@@ -910,6 +909,10 @@ if page == 'Assignment 2':
             node_size=values_nodes_lazada, node_color=values_lazada, with_labels=False, width=0.5, font_color='black')
     nx.draw_networkx_labels(G_lazada, posLazada, labels_lazada, font_size=20, font_color='black', font_weight='bold')
     st.pyplot()
+    st.subheader('Graph Info')
+    st.write("Number of nodes:", G_lazada.number_of_nodes())
+    st.write("Number of edges:", G_lazada.number_of_edges())
+    st.write("Network density:", nx.density(G_lazada))
 
     st.header('Centrality Ranking')
     deg_col1, deg_col2 = st.beta_columns(2)
@@ -951,39 +954,42 @@ if page == 'Assignment 2':
     lazada_eigen_df = lazada_eigen_df.set_index('Account')
     eigen_col2.write(lazada_eigen_df)
 
-    st.header('Lazada Community')
-    for k, v in lazada_communities.items():
-        if v not in lazada_modularity:
-            lazada_modularity[v] = [k]
-        else:
-            lazada_modularity[v].append(k)
-
-    comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
-    count = 0
-    for k, v in lazada_modularity.items():
-        if len(v) > 2:
-            df_community = pd.DataFrame(v, columns=['Account'])
-            if count % 3 == 0:
-                comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
-                comm_col1.dataframe(df_community)
-            if count % 3 == 1:
-                comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
-                comm_col2.dataframe(df_community)
-            if count % 3 == 2:
-                comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
-                comm_col3.dataframe(df_community)
-            count += 1
+    # st.header('Lazada Community')
+    # for k, v in lazada_communities.items():
+    #     if v not in lazada_modularity:
+    #         lazada_modularity[v] = [k]
+    #     else:
+    #         lazada_modularity[v].append(k)
+    #
+    # comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
+    # count = 0
+    # for k, v in lazada_modularity.items():
+    #     if len(v) > 2:
+    #         df_community = pd.DataFrame(v, columns=['Account'])
+    #         if count % 3 == 0:
+    #             comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
+    #             comm_col1.dataframe(df_community)
+    #         if count % 3 == 1:
+    #             comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
+    #             comm_col2.dataframe(df_community)
+    #         if count % 3 == 2:
+    #             comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(lazada_modularity[k])) + ' people\n')
+    #             comm_col3.dataframe(df_community)
+    #         count += 1
 
     # --------------------------- Shopee ---------------------------------------------
     st.error('Shopee Malaysia Network')
     st.header('Shopee Network Graph')
     brandColor = palette[2]
-
     plt.figure(figsize=(20, 20))
     nx.draw(G_shopee, posShopee, cmap=plt.get_cmap('plasma'), edge_color='gray',
             node_size=values_nodes_shopee, node_color=values_shopee, with_labels=False, width=0.5, font_color='black')
     nx.draw_networkx_labels(G_shopee, posShopee, labels_shopee, font_size=20, font_color='black', font_weight='bold')
     st.pyplot()
+    st.subheader('Graph Info')
+    st.write("Number of nodes:", G_shopee.number_of_nodes())
+    st.write("Number of edges:", G_shopee.number_of_edges())
+    st.write("Network density:", nx.density(G_shopee))
 
     st.header('Centrality Ranking')
     deg_col1, deg_col2 = st.beta_columns(2)
@@ -1025,28 +1031,28 @@ if page == 'Assignment 2':
     shopee_eigen_df = shopee_eigen_df.set_index('Account')
     eigen_col2.write(shopee_eigen_df)
 
-    st.header('Shopeee Community')
-    for k, v in shopee_communities.items():
-        if v not in shopee_modularity:
-            shopee_modularity[v] = [k]
-        else:
-            shopee_modularity[v].append(k)
-
-    comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
-    count = 0
-    for k, v in shopee_modularity.items():
-        if len(v) > 2:
-            df_community = pd.DataFrame(v, columns=['Account'])
-            if count % 3 == 0:
-                comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
-                comm_col1.dataframe(df_community)
-            if count % 3 == 1:
-                comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
-                comm_col2.dataframe(df_community)
-            if count % 3 == 2:
-                comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
-                comm_col3.dataframe(df_community)
-            count += 1
+    # st.header('Shopeee Community')
+    # for k, v in shopee_communities.items():
+    #     if v not in shopee_modularity:
+    #         shopee_modularity[v] = [k]
+    #     else:
+    #         shopee_modularity[v].append(k)
+    #
+    # comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
+    # count = 0
+    # for k, v in shopee_modularity.items():
+    #     if len(v) > 2:
+    #         df_community = pd.DataFrame(v, columns=['Account'])
+    #         if count % 3 == 0:
+    #             comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
+    #             comm_col1.dataframe(df_community)
+    #         if count % 3 == 1:
+    #             comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
+    #             comm_col2.dataframe(df_community)
+    #         if count % 3 == 2:
+    #             comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(shopee_modularity[k])) + ' people\n')
+    #             comm_col3.dataframe(df_community)
+    #         count += 1
 
     # --------------------- watsons ------------------------------------------------
     # network draw
@@ -1058,6 +1064,10 @@ if page == 'Assignment 2':
             node_size=values_nodes_watsons, node_color=values_watsons, with_labels=False, width=0.5, font_color='black')
     nx.draw_networkx_labels(G_watsons, posWatsons, labels_watsons, font_size=20, font_color='black', font_weight='bold')
     st.pyplot()
+    st.subheader('Graph Info')
+    st.write("Number of nodes:", G_watsons.number_of_nodes())
+    st.write("Number of edges:", G_watsons.number_of_edges())
+    st.write("Network density:", nx.density(G_watsons))
 
     st.header('Centrality Ranking')
     deg_col1, deg_col2 = st.beta_columns(2)
@@ -1099,25 +1109,25 @@ if page == 'Assignment 2':
     watsons_eigen_df = watsons_eigen_df.set_index('Account')
     eigen_col2.write(watsons_eigen_df)
 
-    st.header('Watsons Community')
-    for k, v in watsons_communities.items():
-        if v not in watsons_modularity:
-            watsons_modularity[v] = [k]
-        else:
-            watsons_modularity[v].append(k)
-
-    comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
-    count = 0
-    for k, v in watsons_modularity.items():
-        if len(v) > 2:
-            df_community = pd.DataFrame(v, columns=['Account'])
-            if count % 3 == 0:
-                comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
-                comm_col1.dataframe(df_community)
-            if count % 3 == 1:
-                comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
-                comm_col2.dataframe(df_community)
-            if count % 3 == 2:
-                comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
-                comm_col3.dataframe(df_community)
-            count += 1
+    # st.header('Watsons Community')
+    # for k, v in watsons_communities.items():
+    #     if v not in watsons_modularity:
+    #         watsons_modularity[v] = [k]
+    #     else:
+    #         watsons_modularity[v].append(k)
+    #
+    # comm_col1, comm_col2, comm_col3 = st.beta_columns(3)
+    # count = 0
+    # for k, v in watsons_modularity.items():
+    #     if len(v) > 2:
+    #         df_community = pd.DataFrame(v, columns=['Account'])
+    #         if count % 3 == 0:
+    #             comm_col1.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
+    #             comm_col1.dataframe(df_community)
+    #         if count % 3 == 1:
+    #             comm_col2.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
+    #             comm_col2.dataframe(df_community)
+    #         if count % 3 == 2:
+    #             comm_col3.write('CLASS ' + str(k) + ' : ' + str(len(watsons_modularity[k])) + ' people\n')
+    #             comm_col3.dataframe(df_community)
+    #         count += 1
