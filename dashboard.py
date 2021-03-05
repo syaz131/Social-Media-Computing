@@ -251,21 +251,21 @@ if page == 'Assignment 1':
         st.subheader('Response Time Data')
         st.table(df_response.transpose())
 
-    fig, ax = plt.subplots(figsize=(15, 7))
-    boxplot_rt = plt.boxplot(response_time_df, patch_artist=True)
-
-    for patch, color in zip(boxplot_rt['boxes'], palette):
-        patch.set_facecolor(color)
-
-    for median in boxplot_rt['medians']:
-        median.set(color='w',
-                   linewidth=2.5)
-    x = [1, 2, 3, 4]
-    plt.xticks(x, brands, rotation=360)
-    plt.xlabel("Brand", fontsize=font_size)
-    plt.ylabel("Time (s)", fontsize=font_size)
-    plt.title("Distribution of response time within 21 days period for all brands", fontsize=21)
-    st.pyplot()
+    # fig, ax = plt.subplots(figsize=(15, 7))
+    # boxplot_rt = plt.boxplot(response_time_df, patch_artist=True)
+    #
+    # for patch, color in zip(boxplot_rt['boxes'], palette):
+    #     patch.set_facecolor(color)
+    #
+    # for median in boxplot_rt['medians']:
+    #     median.set(color='w',
+    #                linewidth=2.5)
+    # x = [1, 2, 3, 4]
+    # plt.xticks(x, brands, rotation=360)
+    # plt.xlabel("Brand", fontsize=font_size)
+    # plt.ylabel("Time (s)", fontsize=font_size)
+    # plt.title("Distribution of response time within 21 days period for all brands", fontsize=21)
+    # st.pyplot()
 
     st.write('Looking at the distribution of the boxplot and the trend of the line graph for the response time for '
              'all brands, LazadaMY has the lowest median response time in comparison. This means that LazadaMY is the '
@@ -565,12 +565,14 @@ if page == 'Assignment 2':
     # ========================================= Graph Data ============================
 
     val_map_shopee = {'friends': 1.0, 'followers': 0.75}
+    val_map_watsons = {'friends': 0.9, 'followers': 0.3}
+    val_map_grab = {'friends': 0.9, 'followers': 0.35}
     val_map = {'friends': 1.0, 'followers': 0.0}
     font_map = {'friends': 500, 'followers': 100}
 
     # grab ==============
     posGrab = nx.spring_layout(G_grab, scale=100)
-    values_grab = [val_map.get(node[1], 0.25) for node in G_grab.nodes.data('relationship')]
+    values_grab = [val_map_grab.get(node[1], 0.25) for node in G_grab.nodes.data('relationship')]
     values_nodes_grab = [font_map.get(node[1], 500) for node in G_grab.nodes.data('relationship')]
 
     labels_grab = {}
@@ -624,7 +626,7 @@ if page == 'Assignment 2':
 
     # watsons ==============
     posWatsons = nx.spring_layout(G_watsons, scale=100)
-    values_watsons = [val_map.get(node[1], 0.25) for node in G_watsons.nodes.data('relationship')]
+    values_watsons = [val_map_watsons.get(node[1], 0.25) for node in G_watsons.nodes.data('relationship')]
     values_nodes_watsons = [font_map.get(node[1], 500) for node in G_watsons.nodes.data('relationship')]
 
     labels_watsons = {}
@@ -847,10 +849,15 @@ if page == 'Assignment 2':
     st.header('Grab Network Graph')
     brandColor = palette[0]
     plt.figure(figsize=(20, 20))
-    nx.draw(G_grab, posGrab, cmap=plt.get_cmap('viridis'), edge_color='gray',
+    nx.draw(G_grab, posGrab, cmap=plt.get_cmap('cool'), edge_color='gray',
             node_size=values_nodes_grab, node_color=values_grab, with_labels=False, width=0.5, font_color='black')
-    nx.draw_networkx_labels(G_grab, posGrab, labels_grab, font_size=20, font_color='black', font_weight='bold')
+    # nx.draw_networkx_labels(G_grab, posGrab, labels_grab, font_size=20, font_color='black', font_weight='bold')
     st.pyplot()
+
+    st.subheader('Graph Info')
+    st.write("Number of nodes:", G_grab.number_of_nodes())
+    st.write("Number of edges:", G_grab.number_of_edges())
+    st.write("Network density:", nx.density(G_grab))
 
     st.header('Centrality Ranking')
     deg_col1, deg_col2 = st.beta_columns(2)
@@ -1047,7 +1054,7 @@ if page == 'Assignment 2':
     st.header('Watsons Network Graph')
     brandColor = palette[3]
     plt.figure(figsize=(20, 20))
-    nx.draw(G_watsons, posWatsons, cmap=plt.get_cmap('viridis'), edge_color='gray',
+    nx.draw(G_watsons, posWatsons, cmap=plt.get_cmap('cool'), edge_color='gray',
             node_size=values_nodes_watsons, node_color=values_watsons, with_labels=False, width=0.5, font_color='black')
     nx.draw_networkx_labels(G_watsons, posWatsons, labels_watsons, font_size=20, font_color='black', font_weight='bold')
     st.pyplot()
